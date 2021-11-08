@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Library</title>
+    <script src="https://kit.fontawesome.com/9b8727f8ed.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <header>
+        <div class="logout hidden" title="sign out"><span class="fas fa-sign-out-alt"></span></div>
+        <h1>myLib</h1>
+    </header>
+    <main>
+        <button class="button login hidden">
+            <span class="fas fa-sign-in-alt"></span>
+            <span class="login-text">sign in</span>
+        </button>
+        <div id="books-list" class="hidden">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Title</th><th>Author</th><th>Pages</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+        <div id="menu" class="hidden">
+            <button class="button warning">delete</button>
+            <button class="button info">edit</button>
+            <button class="button success button-large">add</button>
+        </div>
+        
+        <form class="hidden">
+            <div class="title">
+                <label for="title">Title</label>
+                <input type="text" name="title" id="title" maxlength="50" autocomplete="off">
+            </div>
+            <div class="author">
+                <label for="author">Author</label>
+                <input type="text" name="author" id="author" maxlength="25" autocomplete="off">
+            </div>
+            <div class="pages">
+                <label for="pages">Pages</label>
+                <input type="text" name="pages" id="pages" maxlength="5" autocomplete="off">
+            </div>
+            <div class="checkbox-read">
+                <label for="read">Read</label>
+                <input type="checkbox" name="read" id="read">
+            </div>
+            <div id="validation-warning">Incorrect input</div>
+            <button type="submit" class="button success">save</button>
+            <button type="button" class="button warning">cancel</button>
+            
+        </form>
+    </main>
+
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/8.6.0/firebase-app.js"></script>
+
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+     <script src="https://www.gstatic.com/firebasejs/8.5.0/firebase-auth.js"></script>
+     <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-database.js"></script>
+
+     
+    <script src="script.js"></script>
+</body>
+</html>
