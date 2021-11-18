@@ -231,7 +231,7 @@ form input {
 
 
 /* ========== Media Queries ========== */
-@media (min-width: 750px) and (min-height: 650px)
+@media (min-width: 750px) and (min-height: 600px)
  {
     body {
         align-items: center;
