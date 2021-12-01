@@ -14,6 +14,8 @@ class App {
         Form.addListeners();
     }
 }
+
+
 class Library {
     static load(books) {
         // Gets books list as argument from firebase, and displays them.
@@ -47,6 +49,7 @@ class Library {
             
         }
     }
+
     static addBook(title, author, pages, read) {
         const book = new Book(title, author, pages, read);
         const bookRef = database.ref(`users/${App.user.uid}`).push(book);
@@ -54,6 +57,22 @@ class Library {
         this.#updateView();
     }
 
+    static deleteBook() {
+        database.ref(`users/${App.user.uid}/${this.selectedBook.dataset.id}`).remove();
+        this.selectedBook.remove();
+        Menu.fold();
+        this.#updateView();
+    }
+
+    static editBook(title, author, pages, read) {
+        const book = new Book(title, author, pages, read);
+        database.ref(`users/${App.user.uid}/${this.selectedBook.dataset.id}`).set(book);
+        [title, author, pages].forEach((text, index) => {
+            this.selectedBook.children[index].innerText = text}
+        );
+        if (read) this.selectedBook.classList.add("read");
+        else this.selectedBook.classList.remove("read");
+    }
 
     static #addRow(book, id) {
         const row = document.querySelector("tbody").insertRow();
@@ -80,6 +99,7 @@ class Library {
             row.classList.add("selected");
             this.selectedBook = row;
             // if (this.parent.form.visible && this.parent.form.mode === "edit") this.parent.form.fill();
+            
             Menu.expand();
         })
     }
@@ -115,6 +135,11 @@ class Menu {
 
     static addListeners() {
         this.#addButton.addEventListener("click", e => Form.show(e));
+        this.#deleteButton.addEventListener("click", () => Library.deleteBook());
+        this.#editButton.addEventListener("click", e => {
+            Form.fill();
+            Form.show(e);
+        })
     }
 }
 
@@ -174,6 +199,29 @@ class Form {
         Menu.node.classList.add("hidden");
         this.node.classList.remove("hidden");
         this.mode = e.srcElement.innerText;
+    }
+
+    static hide() {
+        this.node.classList.add("hidden");
+        Menu.node.classList.remove("hidden");
+        this.node.reset();
+        // Reset input styles.
+        this.#inputs.forEach(input => {
+            input.classList.remove("invalid");
+            input.previousElementSibling.style.fontSize = "1rem";
+            input.style.fontSize = "0.7rem";
+            this.#validationWarning.style.visibility = "hidden";
+        });
+    }
+
+    static fill() {
+        const book = Library.selectedBook;
+        this.#inputs.forEach((input, index) => {
+            input.previousElementSibling.style.fontSize = "0.7rem";
+            input.style.fontSize = "1rem";
+            input.value = book.children[index].innerText;
+        });
+        this.node.querySelector(".checkbox-read input").checked = book.classList.contains("read");
     }
 
     static #validateInput(input) {
